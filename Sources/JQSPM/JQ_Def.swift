@@ -16,10 +16,23 @@ import OSLog
 // https://www.jianshu.com/p/3c1dddb0e5b0
 
 #if canImport(UIKit)
-@MainActor var JQ_NavH:Double {
+
+@MainActor public let JQ_ScreenWidth:Double = {
+    return UIScreen.main.bounds.width
+}()
+
+@MainActor public let JQ_ScreenHeight:Double = {
+    return UIScreen.main.bounds.height
+}()
+
+@MainActor public let JQ_ScreenScale: CGFloat = {
+    return UIScreen.main.scale
+}()
+
+@MainActor public var JQ_NavH:Double {
     get{
         if #available(iOS 13.0, *) {
-            let manager = UIKit.UIApplication.shared.windows.first?.windowScene?.statusBarManager
+            let manager = UIApplication.shared.windows.first?.windowScene?.statusBarManager
             return Double( manager?.statusBarFrame.size.height ?? 0)
         } else {
             return UIApplication.shared.statusBarFrame.size.height
@@ -28,7 +41,7 @@ import OSLog
 }
 #else
 // macOS默认值
-var JQ_NavH:Double {
+public var JQ_NavH:Double {
     return 0.0
 }
 #endif
@@ -54,14 +67,6 @@ public extension JQFisherCompatible{
 
 #if canImport(UIKit)
 extension UIImage:JQFisherCompatible{}
-#endif
-
-#if canImport(UIKit)
-public extension JQFisher where Base:UIImage{
-     func sayHello(){
-
-    }
-}
 #endif
 
 

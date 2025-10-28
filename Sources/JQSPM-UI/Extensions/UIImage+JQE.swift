@@ -76,14 +76,14 @@ public enum CorrectionLevel{
     case aztecLevel(_ value:Int)
     var  levelValue:String{
         switch self {
-            case .L:
-                return "L"
-            case .M:
-                return "M"
-            case .Q:
-                return "Q"
-            case .H:
-                return "H"
+        case .L:
+            return "L"
+        case .M:
+            return "M"
+        case .Q:
+            return "Q"
+        case .H:
+            return "H"
             default:return  "" }
     }
 }
@@ -99,16 +99,16 @@ public enum GradientDirection {
 
     public func point(size: CGSize) -> (CGPoint, CGPoint) {
         switch self {
-            case .horizontal:
-                return (CGPoint.init(x: 0, y: 0), CGPoint.init(x: size.width, y: 0))
-            case .vertical:
-                return (CGPoint.init(x: 0, y: 0), CGPoint.init(x: 0, y: size.height))
-            case .leftOblique:
-                return (CGPoint.init(x: 0, y: 0), CGPoint.init(x: size.width, y: size.height))
-            case .rightOblique:
-                return (CGPoint.init(x: size.width, y: 0), CGPoint.init(x: 0, y: size.height))
-            case .other(let stat, let end):
-                return (stat, end)
+        case .horizontal:
+            return (CGPoint.init(x: 0, y: 0), CGPoint.init(x: size.width, y: 0))
+        case .vertical:
+            return (CGPoint.init(x: 0, y: 0), CGPoint.init(x: 0, y: size.height))
+        case .leftOblique:
+            return (CGPoint.init(x: 0, y: 0), CGPoint.init(x: size.width, y: size.height))
+        case .rightOblique:
+            return (CGPoint.init(x: size.width, y: 0), CGPoint.init(x: 0, y: size.height))
+        case .other(let stat, let end):
+            return (stat, end)
         }
     }
 }
@@ -394,20 +394,20 @@ public extension UIImage{
         filter.setValue(data, forKey: CodeKey.inputMessage.rawValue)
         if (descriptor == .qrCpde || descriptor == .pdf417){
             switch level {
-                case .L,.M,.Q,.H:
-                    filter.setValue(level.levelValue, forKey: CodeKey.inputCorrectionLevel.rawValue)
-                default:break
+            case .L,.M,.Q,.H:
+                filter.setValue(level.levelValue, forKey: CodeKey.inputCorrectionLevel.rawValue)
+            default:break
             }
         }else if descriptor == .aztec{
             switch level {
-                case .aztecLevel(var value):
-                    if value < 5 {
-                        value = 5
-                    }else if value > 95{
-                        value = 95
-                    }
-                    filter.setValue(NSNumber.init(value: value), forKey: CodeKey.inputCorrectionLevel.rawValue)
-                default:break
+            case .aztecLevel(var value):
+                if value < 5 {
+                    value = 5
+                }else if value > 95{
+                    value = 95
+                }
+                filter.setValue(NSNumber.init(value: value), forKey: CodeKey.inputCorrectionLevel.rawValue)
+            default:break
             }
         }
 
@@ -533,15 +533,15 @@ public extension UIImage{
 
         let imageSize = self.size
         switch corner{
-            case .TopLeft:
-                textFrame.origin = margin
-            case .TopRight:
-                textFrame.origin = CGPoint(x: imageSize.width - textSize.width - margin.x, y: margin.y)
-            case .BottomLeft:
-                textFrame.origin = CGPoint(x: margin.x, y: imageSize.height - textSize.height - margin.y)
-            case .BottomRight:
-                textFrame.origin = CGPoint(x: imageSize.width - textSize.width - margin.x,
-                                           y: imageSize.height - textSize.height - margin.y)
+        case .TopLeft:
+            textFrame.origin = margin
+        case .TopRight:
+            textFrame.origin = CGPoint(x: imageSize.width - textSize.width - margin.x, y: margin.y)
+        case .BottomLeft:
+            textFrame.origin = CGPoint(x: margin.x, y: imageSize.height - textSize.height - margin.y)
+        case .BottomRight:
+            textFrame.origin = CGPoint(x: imageSize.width - textSize.width - margin.x,
+                                       y: imageSize.height - textSize.height - margin.y)
         }
 
         // 开始给图片添加文字水印
@@ -564,17 +564,17 @@ public extension UIImage{
         let imageSize = self.size
 
         switch corner{
-            case .TopLeft:
-                markFrame.origin = margin
-            case .TopRight:
-                markFrame.origin = CGPoint(x: imageSize.width - waterMarkImage.size.width - margin.x,
-                                           y: margin.y)
-            case .BottomLeft:
-                markFrame.origin = CGPoint(x: margin.x,
-                                           y: imageSize.height - waterMarkImage.size.height - margin.y)
-            case .BottomRight:
-                markFrame.origin = CGPoint(x: imageSize.width - waterMarkImage.size.width - margin.x,
-                                           y: imageSize.height - waterMarkImage.size.height - margin.y)
+        case .TopLeft:
+            markFrame.origin = margin
+        case .TopRight:
+            markFrame.origin = CGPoint(x: imageSize.width - waterMarkImage.size.width - margin.x,
+                                       y: margin.y)
+        case .BottomLeft:
+            markFrame.origin = CGPoint(x: margin.x,
+                                       y: imageSize.height - waterMarkImage.size.height - margin.y)
+        case .BottomRight:
+            markFrame.origin = CGPoint(x: imageSize.width - waterMarkImage.size.width - margin.x,
+                                       y: imageSize.height - waterMarkImage.size.height - margin.y)
         }
 
         // 开始给图片添加图片
@@ -728,20 +728,20 @@ public extension UIImage{
         filter.setValue(data, forKey: CodeKey.inputMessage.rawValue)
         if (descriptor == .qrCpde || descriptor == .pdf417){
             switch level {
-                case .L,.M,.Q,.H:
-                    filter.setValue(level.levelValue, forKey: CodeKey.inputCorrectionLevel.rawValue)
-                default:break
+            case .L,.M,.Q,.H:
+                filter.setValue(level.levelValue, forKey: CodeKey.inputCorrectionLevel.rawValue)
+            default:break
             }
         }else if descriptor == .aztec{
             switch level {
-                case .aztecLevel(var value):
-                    if value < 5 {
-                        value = 5
-                    }else if value > 95{
-                        value = 95
-                    }
-                    filter.setValue(NSNumber.init(value: value), forKey: CodeKey.inputCorrectionLevel.rawValue)
-                default:break
+            case .aztecLevel(var value):
+                if value < 5 {
+                    value = 5
+                }else if value > 95{
+                    value = 95
+                }
+                filter.setValue(NSNumber.init(value: value), forKey: CodeKey.inputCorrectionLevel.rawValue)
+            default:break
             }
         }
 
@@ -835,10 +835,10 @@ public extension UIImage{
     ///   - direction: 渐变的方向
     /// - Returns: 带圆角的渐变的图片
     @MainActor static func jq_gradient(_ colors: [UIColor],
-                            size: CGSize = CGSize(width: 10, height: 10),
-                            radius: CGFloat,
-                            locations:[CGFloat]? = nil,
-                            direction: GradientDirection = .horizontal) -> UIImage? {
+                                       size: CGSize = CGSize(width: 10, height: 10),
+                                       radius: CGFloat,
+                                       locations:[CGFloat]? = nil,
+                                       direction: GradientDirection = .horizontal) -> UIImage? {
         if colors.count == 0 { return nil }
         if colors.count == 1 {
             return UIImage.jq_image(color: colors[0])
@@ -1194,10 +1194,10 @@ public extension UIImage {
     var hasAlpha: Bool {
         let alpha: CGImageAlphaInfo = self.cgImage!.alphaInfo
         switch alpha {
-            case .first, .last, .premultipliedFirst, .premultipliedLast:
-                return true
-            default:
-                return false
+        case .first, .last, .premultipliedFirst, .premultipliedLast:
+            return true
+        default:
+            return false
         }
     }
 
@@ -1326,12 +1326,12 @@ public extension UIImage {
         var ratio: CGFloat!
 
         switch contentMode {
-            case .scaleToFill:
-                ratio = 1
-            case .scaleAspectFill:
-                ratio = max(horizontalRatio, verticalRatio)
-            case .scaleAspectFit:
-                ratio = min(horizontalRatio, verticalRatio)
+        case .scaleToFill:
+            ratio = 1
+        case .scaleAspectFill:
+            ratio = max(horizontalRatio, verticalRatio)
+        case .scaleAspectFit:
+            ratio = min(horizontalRatio, verticalRatio)
         }
 
         let rect = CGRect(x: 0, y: 0, width: size.width * ratio, height: size.height * ratio)
@@ -1707,7 +1707,7 @@ public extension UIImage {
                 }
                 if let data = data, let image = UIImage(data: data) {
                     if shouldCacheImage {
-                         UIImage.shared.setObject(image, forKey: url as AnyObject)
+                        UIImage.shared.setObject(image, forKey: url as AnyObject)
                     }
                     DispatchQueue.main.async {
                         closure(image)
@@ -1822,35 +1822,35 @@ public extension UIImage {
         }
         var transform: CGAffineTransform = CGAffineTransform.identity
         switch imageOrientation {
-            case .down, .downMirrored:
-                transform = transform.translatedBy(x: size.width, y: size.height)
-                transform = transform.rotated(by: .pi)
-            case .left, .leftMirrored:
-                transform = transform.translatedBy(x: size.width, y: 0)
-                transform = transform.rotated(by: .pi / 2)
-            case .right, .rightMirrored:
-                transform = transform.translatedBy(x: 0, y: size.height)
-                transform = transform.rotated(by: -.pi / 2)
-            default:
-                break
+        case .down, .downMirrored:
+            transform = transform.translatedBy(x: size.width, y: size.height)
+            transform = transform.rotated(by: .pi)
+        case .left, .leftMirrored:
+            transform = transform.translatedBy(x: size.width, y: 0)
+            transform = transform.rotated(by: .pi / 2)
+        case .right, .rightMirrored:
+            transform = transform.translatedBy(x: 0, y: size.height)
+            transform = transform.rotated(by: -.pi / 2)
+        default:
+            break
         }
         switch imageOrientation {
-            case .upMirrored, .downMirrored:
-                transform.translatedBy(x: size.width, y: 0)
-                transform.scaledBy(x: -1, y: 1)
-            case .leftMirrored, .rightMirrored:
-                transform.translatedBy(x: size.height, y: 0)
-                transform.scaledBy(x: -1, y: 1)
-            default:
-                break
+        case .upMirrored, .downMirrored:
+            transform.translatedBy(x: size.width, y: 0)
+            transform.scaledBy(x: -1, y: 1)
+        case .leftMirrored, .rightMirrored:
+            transform.translatedBy(x: size.height, y: 0)
+            transform.scaledBy(x: -1, y: 1)
+        default:
+            break
         }
         let ctx: CGContext = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: (self.cgImage?.bitsPerComponent)!, bytesPerRow: 0, space: (self.cgImage?.colorSpace)!, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
         ctx.concatenate(transform)
         switch imageOrientation {
-            case .left, .leftMirrored, .right, .rightMirrored:
-                ctx.draw(self.cgImage!, in: CGRect(x: 0, y: 0, width: size.height, height: size.width))
-            default:
-                ctx.draw(self.cgImage!, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        case .left, .leftMirrored, .right, .rightMirrored:
+            ctx.draw(self.cgImage!, in: CGRect(x: 0, y: 0, width: size.height, height: size.width))
+        default:
+            ctx.draw(self.cgImage!, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         }
         let cgImage: CGImage = ctx.makeImage()!
         return UIImage(cgImage: cgImage)
@@ -1974,24 +1974,24 @@ public enum CompressionMode : Sendable{
 
     fileprivate var maxDataSize: Int {
         switch self {
-            case .low:
-                return CompressionMode.dataSizeRule.low
-            case .medium:
+        case .low:
+            return CompressionMode.dataSizeRule.low
+        case .medium:
+            return CompressionMode.dataSizeRule.default
+        case .high:
+            return CompressionMode.dataSizeRule.high
+        case .other(_, let dataSize):
+            if dataSize < CompressionMode.dataSizeRule.min {
                 return CompressionMode.dataSizeRule.default
-            case .high:
-                return CompressionMode.dataSizeRule.high
-            case .other(_, let dataSize):
-                if dataSize < CompressionMode.dataSizeRule.min {
-                    return CompressionMode.dataSizeRule.default
-                }
-                if dataSize > CompressionMode.dataSizeRule.max {
-                    return CompressionMode.dataSizeRule.max
-                }
-                return dataSize
+            }
+            if dataSize > CompressionMode.dataSizeRule.max {
+                return CompressionMode.dataSizeRule.max
+            }
+            return dataSize
         }
     }
 
-     fileprivate func resize(_ size: CGSize) -> CGSize {
+    fileprivate func resize(_ size: CGSize) -> CGSize {
         if size.width < CompressionMode.resolutionRule.min || size.height < CompressionMode.resolutionRule.min {
             return size
         }
@@ -2012,20 +2012,20 @@ public enum CompressionMode : Sendable{
 
     fileprivate var maxSize: CGFloat {
         switch self {
-            case .low:
-                return CompressionMode.resolutionRule.low
-            case .medium:
+        case .low:
+            return CompressionMode.resolutionRule.low
+        case .medium:
+            return CompressionMode.resolutionRule.default
+        case .high:
+            return CompressionMode.resolutionRule.high
+        case .other(let size, _):
+            if size < CompressionMode.resolutionRule.min {
                 return CompressionMode.resolutionRule.default
-            case .high:
-                return CompressionMode.resolutionRule.high
-            case .other(let size, _):
-                if size < CompressionMode.resolutionRule.min {
-                    return CompressionMode.resolutionRule.default
-                }
-                if size > CompressionMode.resolutionRule.max {
-                    return CompressionMode.resolutionRule.max
-                }
-                return size
+            }
+            if size > CompressionMode.resolutionRule.max {
+                return CompressionMode.resolutionRule.max
+            }
+            return size
         }
     }
 }
@@ -2059,12 +2059,12 @@ public extension UIImage{
         var c:UInt8 = 0
         data.copyBytes(to: &c, count: 1)
         switch c {
-            case 0xFF:
-                return .jpg
-            case 0x89:
-                return .png
-            default:
-                return .unknown
+        case 0xFF:
+            return .jpg
+        case 0x89:
+            return .png
+        default:
+            return .unknown
         }
     }
 

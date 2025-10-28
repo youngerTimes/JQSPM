@@ -18,9 +18,9 @@ public typealias Object = NSColor
 public extension UIColor{
     ///ColorHex
     convenience init(hexStr:String,darkStr:String? = nil,autoDart:Bool = false) {
-
+        
         var tempStr = hexStr
-
+        
         if autoDart {
             if #available(iOS 13.0, *) {
                 if UITraitCollection.current.userInterfaceStyle == .dark  {
@@ -28,7 +28,7 @@ public extension UIColor{
                 }
             }
         }
-
+        
         if darkStr != nil {
             if #available(iOS 13.0, *) {
                 if UITraitCollection.current.userInterfaceStyle == .dark  {
@@ -36,7 +36,7 @@ public extension UIColor{
                 }
             }
         }
-
+        
         var cString:String = tempStr.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         if (cString.hasPrefix("#")) {
             cString.remove(at: cString.startIndex)
@@ -52,13 +52,13 @@ public extension UIColor{
                       alpha: 1)
         }
     }
-
+    
     convenience init(lr:CGFloat,lg:CGFloat,lb:CGFloat,dr:CGFloat? = nil,dg:CGFloat? = nil, db:CGFloat? = nil,alpha:CGFloat = 1.0) {
-
+        
         var r:CGFloat = lr
         var g:CGFloat = lg
         var b:CGFloat = lb
-
+        
         if dr != nil && dg != nil && db != nil {
             if #available(iOS 13.0, *) {
                 if UITraitCollection.current.userInterfaceStyle == .dark  {
@@ -68,10 +68,10 @@ public extension UIColor{
                 }
             }
         }
-
+        
         self.init(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: alpha)
     }
-
+    
     ///使用rgb方式生成自定义颜色
     convenience init(_ r : CGFloat, _ g : CGFloat, _ b : CGFloat) {
         let red = r / 255.0
@@ -79,16 +79,16 @@ public extension UIColor{
         let blue = b / 255.0
         self.init(red: red, green: green, blue: blue, alpha: 1)
     }
-
+    
     ///使用rgba方式生成自定义颜色
     convenience init(_ r : CGFloat, _ g : CGFloat, _ b : CGFloat, _ a : CGFloat) {
-
+        
         let red = r / 255.0
         let green = g / 255.0
         let blue = b / 255.0
         self.init(red: red, green: green, blue: blue, alpha: a)
     }
-
+    
     ///返回随机颜色
     static var jq_randomColor:UIColor{
         get{
@@ -98,14 +98,14 @@ public extension UIColor{
             return UIColor(red: red, green: green, blue: blue, alpha: 1.0)
         }
     }
-
+    
     //获取反色
     func jq_invertColor() -> UIColor {
         var r:CGFloat = 0, g:CGFloat = 0, b:CGFloat = 0
         self.getRed(&r, green: &g, blue: &b, alpha: nil)
         return UIColor(red:1.0-r, green: 1.0-g, blue: 1.0-b, alpha: 1)
     }
-
+    
     private static func darkenHexColorStr(_ hexStr: String) -> String {
         var cString: String = hexStr.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         if (cString.hasPrefix("#")) {
@@ -122,6 +122,6 @@ public extension UIColor{
             return String(format: "%02lX%02lX%02lX", Int(r), Int(g), Int(b))
         }
     }
-
+    
 }
 #endif

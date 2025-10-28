@@ -14,7 +14,7 @@ import CoreLocation
 import MapKit
 
 
-#if canImport(UIKIt)
+#if canImport(UIKit)
 
 public enum JQ_MapNavigationType {
     case BaiduMap //百度地图
@@ -144,7 +144,7 @@ public enum JQ_MapNavigationType {
             case .qqMap:
                 url = "qqmap://map/routeplan?from=我的位置&type=drive&tocoord=\(coor.latitude),\(coor.longitude)&to=\(distanceName)&coord_type=1&policy=0"
         }
-        UIApplication.shared.open(URL(string: url.jq_urlEncoded())!, options: [:]) { (status) in
+        UIApplication.shared.open(URL(string: url.urlEncoded())!, options: [:]) { (status) in
             if !status{
 //                JQ_ShowError(errorStr: "导航失败,请选择其他导航APP")
             }

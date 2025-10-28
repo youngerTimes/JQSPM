@@ -162,12 +162,12 @@ public extension UIView{
         //播放动画
         UIView.animate(withDuration: interval, animations: { () -> Void in
             switch direction {
-                case .horizontal:
-                    self.layer.setAffineTransform( CGAffineTransform(translationX: delta, y: 0))
-                    break
-                case .vertical:
-                    self.layer.setAffineTransform( CGAffineTransform(translationX: 0, y: delta))
-                    break
+            case .horizontal:
+                self.layer.setAffineTransform( CGAffineTransform(translationX: delta, y: 0))
+                break
+            case .vertical:
+                self.layer.setAffineTransform( CGAffineTransform(translationX: 0, y: delta))
+                break
             }
         }) { (complete) -> Void in
             //如果当前是最后一次抖动，则将位置还原，并调用完成回调函数

@@ -159,7 +159,7 @@ public extension UILabel{
         attributedText.enumerateAttribute(.link, in: range, options: []) { value, range, _ in
             if indexOfCharacter >= range.location && indexOfCharacter < NSMaxRange(range),
                let url = value as? URL,let handler = objc_getAssociatedObject(self, &LabelAssociatedKeys.actionHandler) as? (URL)->Void{
-                    handler(url)
+                handler(url)
             }
         }
     }

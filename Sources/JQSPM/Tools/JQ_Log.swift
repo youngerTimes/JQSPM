@@ -8,7 +8,7 @@
 import OSLog
 
 @available(macOS 10.15, iOS 13.0, *)
-@MainActor final class JQLog{
+public final class JQLog{
 
     struct JQLogConfig {
         //日志文件路径
@@ -22,7 +22,7 @@ import OSLog
         var enable = true
     }
 
-    private static var _sharedInstance: JQLog?
+    nonisolated(unsafe) private static var _sharedInstance: JQLog?
     private var config:JQLogConfig!
 
     public class func instance(enable:Bool) -> JQLog {
@@ -65,7 +65,7 @@ import OSLog
         return instance
     }
 
-    func success(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
+    public func success(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
         guard config.enable else {return}
         if #available(iOS 14.0, *,macOS 11.0, *) {
             let logger = Logger(subsystem: config.projectName, category: Thread.current.name ?? "main")
@@ -77,7 +77,7 @@ import OSLog
         writeLog(items,separator: separator,file: file,function: function,line: line)
     }
 
-    func error(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
+    public func error(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
         guard config.enable else {return}
         if #available(iOS 14.0, *,macOS 11.0, *) {
             let logger = Logger(subsystem: config.projectName, category:  Thread.current.name ?? "main")
@@ -89,7 +89,7 @@ import OSLog
         writeLog(items,separator: separator,file: String(file),function: function,line: line)
     }
 
-    func carch(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
+    public  func carch(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
         guard config.enable else {return}
         if #available(iOS 14.0, *,macOS 11.0, *) {
             let logger = Logger(subsystem: config.projectName, category:Thread.current.name ?? "main")
@@ -101,7 +101,7 @@ import OSLog
         writeLog(items,separator: separator,file: String(file),function: function,line: line)
     }
 
-    func debug(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
+    public func debug(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
         guard config.enable else {return}
         if #available(iOS 14.0, *,macOS 11.0, *) {
             let logger = Logger(subsystem: config.projectName, category:Thread.current.name ?? "main")
@@ -113,7 +113,7 @@ import OSLog
         writeLog(items,separator: separator,file: String(file),function: function,line: line)
     }
 
-    func info(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
+    public  func info(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
         guard config.enable else {return}
         if #available(iOS 14.0, *,macOS 11.0, *) {
             let logger = Logger(subsystem: config.projectName, category:Thread.current.name ?? "main")
@@ -125,7 +125,7 @@ import OSLog
         writeLog(items,separator: separator,file: String(file),function: function,line: line)
     }
 
-    func trace(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
+    public func trace(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
         guard config.enable else {return}
         if #available(iOS 14.0, *,macOS 11.0, *) {
             let logger = Logger(subsystem: config.projectName, category:Thread.current.name ?? "main")
@@ -137,7 +137,7 @@ import OSLog
         writeLog(items,separator: separator,file: String(file),function: function,line: line)
     }
 
-    func warning(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
+    public func warning(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
         guard config.enable else {return}
         if #available(iOS 14.0, *,macOS 11.0, *) {
             let logger = Logger(subsystem: config.projectName, category:Thread.current.name ?? "main")
@@ -149,7 +149,7 @@ import OSLog
         writeLog(items,separator: separator,file: String(file),function: function,line: line)
     }
 
-    func notice(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
+    public  func notice(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
         guard config.enable else {return}
         if #available(iOS 14.0, *,macOS 11.0, *) {
             let logger = Logger(subsystem: config.projectName, category:Thread.current.name ?? "main")
@@ -161,7 +161,7 @@ import OSLog
         writeLog(items,separator: separator,file: String(file),function: function,line: line)
     }
 
-    func critical(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
+    public func critical(_ items:Any...,separator:String="\n",file:String=#file,function:String=#function,line:Int=#line){
         guard config.enable else {return}
         if #available(iOS 14.0, *,macOS 11.0, *) {
             let logger = Logger(subsystem: config.projectName, category:Thread.current.name ?? "main")

@@ -44,21 +44,23 @@ extension JQFisher where Base == URL{
     }
 }
 
-extension URL{
-    static func getVideoSize(by url: URL?) -> CGSize {
-        var size: CGSize = .zero
-        guard let url = url else {
-            return size
-        }
-        let asset = AVAsset(url: url)
-        let tracks = asset.tracks(withMediaType: AVMediaType.video)
-        guard let track = tracks.first else {
-            return size
-        }
+public extension URL{
 
+    /// 获取视频尺寸
+    static func getVideoSize(by url: URL?) async -> CGSize {
+        var size: CGSize = .zero
+        guard let url1 = url else {
+            return size
+        }
+        let asset = AVAsset(url: url1)
+        let tracks1 = asset.tracks(withMediaType: AVMediaType.video)
+        guard let track = tracks1.first else {
+            return size
+        }
+        
         let t = track.preferredTransform
         size = CGSize(width: track.naturalSize.height, height: track.naturalSize.width)
-
+        
         if t.a == 0 && t.b == 1.0 && t.c == -1.0 && t.d == 0 {
             size = CGSize(width: track.naturalSize.height, height: track.naturalSize.width)
         } else if t.a == 0 && t.b == -1.0 && t.c == 1.0 && t.d == 0 {
@@ -74,6 +76,7 @@ extension URL{
         return size
     }
 
+    /// 获取视频大小
     static func wm_getFileSize(_ url:URL) -> Double {
         if let fileData:Data = try? Data.init(contentsOf: url) {
             let size = Double(fileData.count) / (1024.00 * 1024.00)
