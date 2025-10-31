@@ -11,6 +11,7 @@ import CommonCrypto
 #if canImport(UIKit)
 import UIKit
 typealias CustomEdgeInsets = UIEdgeInsets
+public let EdgeInsetsZero = UIEdgeInsets.zero
 typealias CustomFont = UIFont
 typealias CustomColor = UIColor
 #endif
@@ -18,6 +19,7 @@ typealias CustomColor = UIColor
 #if canImport(AppKit)
 import AppKit
 public typealias CustomEdgeInsets = NSEdgeInsets
+public let EdgeInsetsZero = NSEdgeInsets.init()
 public typealias CustomFont = NSFont
 typealias CustomColor = NSColor
 #endif

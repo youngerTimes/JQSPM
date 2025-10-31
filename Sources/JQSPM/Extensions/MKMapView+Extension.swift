@@ -28,8 +28,19 @@ extension JQFisher where Base == MKMapView{
         }
     }
 }
-extension JQFisher where Base == MKMapView{
+public extension JQFisher where Base == MKMapView{
 
+    /// 实现两点间平滑过渡
+    func quadraticBezierCurve(from start: CLLocationCoordinate2D, via controlPoint: CLLocationCoordinate2D, to end: CLLocationCoordinate2D) -> [CLLocationCoordinate2D] {
+        let tValues = [0.0, 0.5, 1.0]
+        var result = [CLLocationCoordinate2D]()
+        for t in tValues {
+            let x = (1 - t) * (1 - t) * start.longitude + 2 * (1 - t) * t * controlPoint.longitude + t * t * end.longitude
+            let y = (1 - t) * (1 - t) * start.latitude + 2 * (1 - t) * t * controlPoint.latitude + t * t * end.latitude
+            result.append(CLLocationCoordinate2D(latitude: y, longitude: x))
+        }
+        return result
+    }
 
     ///获取当前屏幕半径
     @MainActor func getRadius()->Double{
@@ -77,7 +88,7 @@ extension JQFisher where Base == MKMapView{
     }
 
     //显示多个点位在地图上
-    @MainActor func setVisibleMapRect(_ coordinates:[CLLocationCoordinate2D],edgePadding:UIEdgeInsets = .zero,animated:Bool = true){
+    @MainActor func setVisibleMapRect(_ coordinates:[CLLocationCoordinate2D],edgePadding:CustomEdgeInsets = EdgeInsetsZero,animated:Bool = true){
         let rect =  JQFisher<MKMapView>.getMapRect(for: coordinates)
         self.base.setVisibleMapRect(rect, edgePadding: edgePadding, animated: animated)
     }
@@ -157,6 +168,7 @@ extension JQFisher where Base == MKMapView{
         return (mapRect, region)
     }
 
+    
     /// 简化版本：只返回 MKMapRect
     /// - Parameter coordinates: 坐标点数组
     /// - Returns: MKMapRect

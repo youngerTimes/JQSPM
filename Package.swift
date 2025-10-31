@@ -21,15 +21,26 @@ let package = Package(
         .package(url: "https://github.com/ReactiveX/RxSwift.git", .upToNextMajor(from: "6.9.0")),
         .package(url: "https://github.com/alibaba/HandyJSON", from: "5.0.2"),
         .package(url: "https://github.com/SDWebImage/SDWebImage.git", from: "5.1.0"),
-        .package(url: "https://github.com/stephencelis/SQLite.swift.git", from: "0.15.4")
+        .package(url: "https://github.com/stephencelis/SQLite.swift.git", from: "0.15.4"),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.10.0"))
     ],
 
     targets: [
         .target(
-            name: "JQSPM"
+            name: "JQSPM",
+            dependencies: [
+                .product(name: "Alamofire", package: "Alamofire"),
+            ]
         ),
         .target(
             name: "JQSPM-UI"
-        )
+        ),
+        .testTarget(
+            name: "JQSPMTests",
+            dependencies: [
+                "JQSPM",
+                "JQSPM-UI",
+            ],
+        ),
     ]
 )
