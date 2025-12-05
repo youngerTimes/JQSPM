@@ -12,7 +12,7 @@ import UIKit
 import AppKit
 #endif
 
-#if canImport(UIKit)
+#if os(iOS)
 //MARK: - TableAnnimation
 public enum JQ_TableAniType {
     case moveFromLeft //从左->右
@@ -33,13 +33,13 @@ public enum JQ_TableAniType {
 
     if #available(iOS 10.0, *) {
         Timer.scheduledTimer(withTimeInterval: TimeInterval(interval), repeats: true) { ( timer) in DispatchQueue.main.async {
-                label.text = String(format: "%ld", changeValue)
-                changeValue+=1
-                if changeValue > maxNumber{
-                    label.text = String(format: "%.2lf", maxNumber)
-                }
+            label.text = String(format: "%ld", changeValue)
+            changeValue+=1
+            if changeValue > maxNumber{
+                label.text = String(format: "%.2lf", maxNumber)
             }
-                timer.invalidate()
+        }
+            timer.invalidate()
         }
     } else {
         // Fallback on earlier versions
@@ -51,7 +51,7 @@ public enum JQ_TableAniType {
 
     let interval = 0.02
     var changeValue:Double = maxNumber/2
-    
+
     if #available(iOS 10.0, *) {
         Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
             DispatchQueue.main.async {
@@ -72,20 +72,20 @@ public enum JQ_TableAniType {
 /// 放大显影：点击的时候，进行放大的动画
 /// - Parameter btn: 传入按钮
 @MainActor public func JQ_AnimationScaleHuge(_ btn:UIButton){
-				let bgImg = UIImageView(image: btn.imageView?.image)
-				btn.addSubview(bgImg)
-				UIView.animate(withDuration: 0.6, animations: {
-								bgImg.alpha = 0
-								bgImg.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
-				}) { (complete) in
-								bgImg.removeFromSuperview()
-				}
+    let bgImg = UIImageView(image: btn.imageView?.image)
+    btn.addSubview(bgImg)
+    UIView.animate(withDuration: 0.6, animations: {
+        bgImg.alpha = 0
+        bgImg.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+    }) { (complete) in
+        bgImg.removeFromSuperview()
+    }
 }
 
 /// 缩小显影：点击的时候，进行缩小的动画
 /// - Parameter btn: 传入按钮
 @MainActor public func JQ_AnimationScaleShirk(_ btn:UIButton){
-    
+
     let basicAnimation = CABasicAnimation()
     basicAnimation.keyPath = "transform.scale"
     basicAnimation.fromValue = 1.0
@@ -162,7 +162,7 @@ public class JQ_AnisTools:NSObject{
     static public let BasicAni_OriginX = "bounds.origin.x"
     static public let BasicAni_OriginY = "bounds.origin.y"
 
-    
+
     /// 字体动画
     /// - Parameter from: 原大小
     /// - Parameter to: 最终大小
@@ -180,7 +180,7 @@ public class JQ_AnisTools:NSObject{
         basic.keyPath = JQ_AnisTools.BasicAni_Scale
         return basic
     }
-    
+
     /// 大小动画
     /// - Parameter from: 原大小
     /// - Parameter to: 最终大小
@@ -199,18 +199,18 @@ public class JQ_AnisTools:NSObject{
         return basic
     }
 
-	public static func scaleAni(from:Int,to:Int,repeatCount:Float = 1,duration:Double = 0.3)->CABasicAnimation{
-		let basic = CABasicAnimation()
-		basic.fromValue = from
-		basic.toValue = to
-		basic.duration = duration
-		basic.repeatCount = repeatCount
-		basic.isRemovedOnCompletion = false
-		basic.autoreverses = true
-		basic.fillMode = .forwards
-		basic.keyPath = JQ_AnisTools.BasicAni_Scale
-		return basic
-	}
+    public static func scaleAni(from:Int,to:Int,repeatCount:Float = 1,duration:Double = 0.3)->CABasicAnimation{
+        let basic = CABasicAnimation()
+        basic.fromValue = from
+        basic.toValue = to
+        basic.duration = duration
+        basic.repeatCount = repeatCount
+        basic.isRemovedOnCompletion = false
+        basic.autoreverses = true
+        basic.fillMode = .forwards
+        basic.keyPath = JQ_AnisTools.BasicAni_Scale
+        return basic
+    }
 
     /// Y轴动画
     /// - Parameter view: 需要变换的视图
@@ -231,12 +231,12 @@ public class JQ_AnisTools:NSObject{
         basic.keyPath = JQ_AnisTools.BasicAni_Position
         return basic
     }
-    
+
     /// 透明度渐变动画
     /// - Parameter from: 原透明度 默认 1
     /// - Parameter to: 需要渐变到的透明度 默认 0.4
     /// - Parameter repeatCount: 循环次数 默认 1
-    /// - Parameter duration: 持续时间 默认 0.3s    
+    /// - Parameter duration: 持续时间 默认 0.3s
     public static func alphaAni(from:CGFloat = 1,to:CGFloat = 0.4,repeatCount:Float = MAXFLOAT,duration:Double = 0.3)->CAKeyframeAnimation{
         let keyAni = CAKeyframeAnimation()
         keyAni.values = [1.0,0.4,1.0]
@@ -246,13 +246,13 @@ public class JQ_AnisTools:NSObject{
         keyAni.keyPath = BasicAni_Alpha
         return keyAni
     }
-    
+
     /// 动画组
     /// - Parameter duration: 持续时间 默认 0.3
     /// - Parameter repeatCount: 循环次数 1
     /// - Parameter ani1: 动画1
     /// - Parameter others: 其他的动画，可变参数
-	public static func groupAni(duration:Double = 0.3,repeatCount:Float = 1,autoreverses:Bool = true,ani1:CAAnimation,others:CAAnimation ...) -> CAAnimationGroup{
+    public static func groupAni(duration:Double = 0.3,repeatCount:Float = 1,autoreverses:Bool = true,ani1:CAAnimation,others:CAAnimation ...) -> CAAnimationGroup{
         let group = CAAnimationGroup()
         var items = [CAAnimation]()
         items.append(ani1)
@@ -263,28 +263,28 @@ public class JQ_AnisTools:NSObject{
         group.duration = duration
         group.fillMode = .forwards
         group.repeatCount = repeatCount
-		group.autoreverses = autoreverses
+        group.autoreverses = autoreverses
         group.isRemovedOnCompletion = false
-        
+
         return group
     }
-    
+
     /// 隐藏Tabbar
     /// - Parameter duration: 持续时间
-//    public static func hiddenTabbar(duration:Double = 0.5){
-//        UIView.animate(withDuration: duration) {
-//            JQ_currentViewController().tabBarController?.tabBar.jq_y = JQ_ScreenH
-//        }
-//    }
-    
+    //    public static func hiddenTabbar(duration:Double = 0.5){
+    //        UIView.animate(withDuration: duration) {
+    //            JQ_currentViewController().tabBarController?.tabBar.jq_y = JQ_ScreenH
+    //        }
+    //    }
+
     /// 显示Tabbar
     /// - Parameter duration: 持续时间
-//    public static func showTabbar(duration:Double = 0.5){
-//        UIView.animate(withDuration: duration) {
-//            JQ_currentViewController().tabBarController?.tabBar.jq_y = JQ_ScreenH - JQ_TabBarHeight
-//        }
-//    }
-    
+    //    public static func showTabbar(duration:Double = 0.5){
+    //        UIView.animate(withDuration: duration) {
+    //            JQ_currentViewController().tabBarController?.tabBar.jq_y = JQ_ScreenH - JQ_TabBarHeight
+    //        }
+    //    }
+
     ///  拉伸后并缩放动画
     /// - Parameters:
     ///   - view: 需要被执行的View
@@ -297,7 +297,7 @@ public class JQ_AnisTools:NSObject{
             view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         }
     }
-    
+
     /// 视图的渐隐效果，在网络请求完成后完成的展示，隐藏默认数据
     /// - Parameters:
     ///   - view: 需要渐隐的视图

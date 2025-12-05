@@ -22,6 +22,7 @@ let package = Package(
         .package(url: "https://github.com/alibaba/HandyJSON", from: "5.0.2"),
         .package(url: "https://github.com/SDWebImage/SDWebImage.git", from: "5.1.0"),
         .package(url: "https://github.com/stephencelis/SQLite.swift.git", from: "0.15.4"),
+        .package(url: "https://github.com/hackiftekhar/IQKeyboardManager.git", .upToNextMajor(from: "6.5.0")),
         .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.10.0"))
     ],
 
@@ -30,10 +31,12 @@ let package = Package(
             name: "JQSPM",
             dependencies: [
                 .product(name: "Alamofire", package: "Alamofire"),
+                .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
             ]
         ),
         .target(
-            name: "JQSPM-UI"
+            name: "JQSPM-UI",
+            dependencies: ["JQSPM"]
         ),
         .testTarget(
             name: "JQSPMTests",

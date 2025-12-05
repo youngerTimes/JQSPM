@@ -136,4 +136,44 @@ public extension JQFisher where Base == CGFloat{
     }
 }
 
+// 辅助：定义坐标类型枚举（兼容 CoreLocation）
+public enum CLLocationCoordinate2DType {
+    case latitude  // 纬度
+    case longitude // 经度
+}
+
+extension Double{
+    /// 经纬度转度分秒格式（支持北纬/南纬/东经/西经）
+    /// - Parameter type: 坐标类型（纬度/经度）
+    /// - Returns: 度分秒字符串（如 "30°34.86′50.77″N"）
+    public func toDegreeMinuteSecond(type: CLLocationCoordinate2DType) -> String {
+        // 1. 取绝对值计算（方向单独判断），用 Double 保持精度
+        let absoluteValue = abs(self)
+
+        // 2. 拆分「度」：取整数部分
+        let degrees = floor(absoluteValue)
+
+        // 3. 计算「分的原始值」：度的小数部分 × 60
+        let minutesRaw = (absoluteValue - degrees) * 60
+        // 拆分「分」：取整数部分
+        let minutes = floor(minutesRaw)
+
+        // 4. 计算「秒的原始值」：分的小数部分 × 60
+        let seconds = (minutesRaw - minutes) * 60
+
+        // 5. 判断方向（纬度：N/S；经度：E/W）
+        let direction: String
+        switch type {
+        case .latitude:  // 纬度：正数=北纬(N)，负数=南纬(S)
+            direction = self >= 0 ? "N" : "S"
+        case .longitude: // 经度：正数=东经(E)，负数=西经(W)
+            direction = self >= 0 ? "E" : "W"
+        @unknown default:
+            direction = ""
+        }
+
+        // 6. 格式化输出（度：整数；分：2位小数；秒：2位小数）
+        return String(format: "%.0f°%.02f′%.02f″%@", degrees, minutes, seconds, direction)
+    }
+}
 

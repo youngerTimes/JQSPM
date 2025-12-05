@@ -47,7 +47,7 @@ public struct JQ_MemoryCurrentUsage{
 //extension Refreshable {
 //    @discardableResult
 //    public func refreshStatusBind(to scrollView: UIScrollView,header: (() -> Void)? = nil, footer: (() -> Void)? = nil) -> Disposable {
-//        
+//
 //        if header != nil {
 //            scrollView.mj_header = MJRefreshNormalHeader(refreshingBlock: header!)
 //        }
@@ -96,13 +96,13 @@ public protocol JQNibView{}
 
 
 public extension JQNibView where Self : UIView{
-    
+
     @discardableResult
     ///加载方式不同：用于非pod项目中，加载xib所使用
     static func jq_loadNibView() -> Self {
         return Bundle.main.loadNibNamed(Mirror(reflecting: self).description.replacingOccurrences(of: "Mirror for", with: "").replacingOccurrences(of: ".Type", with: "").trimmingCharacters(in: CharacterSet.whitespaces), owner: nil, options: nil)?.first as! Self
     }
-    
+
     @discardableResult
     ////加载方式不同：用于加载JQTools中的xib项目
     static func jq_loadToolNibView()->Self{
@@ -130,10 +130,10 @@ public extension JQNibView where Self : UICollectionViewCell{
 
 //错误信息
 public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #function,lineNum:Int = #line){
-    #if DEBUG
+#if DEBUG
     let file = (file as NSString).lastPathComponent;
     print("JQ_Error: \(file):(\(lineNum))-\(funcName)\n\(message)");
-    #endif
+#endif
 }
 
 ///当前的VC
@@ -155,7 +155,7 @@ public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #fu
         }else {
             return currVC!
         }
-        
+
     } while Rootvc != nil
     return currVC!
 }
@@ -344,7 +344,7 @@ public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #fu
             error == nil ? clouse(true) : clouse(false)
         }
     }
-    
+
     ///绘制虚线
     public static func drawDashLine(lineView : UIView,lineLength : Double ,lineSpacing : Int,lineColor : UIColor, type:DottedLineType){
         let shapeLayer = CAShapeLayer()
@@ -357,14 +357,14 @@ public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #fu
         }else {
             shapeLayer.lineWidth = lineView.frame.size.height
         }
-        
+
         shapeLayer.lineJoin = .round
-        
+
         shapeLayer.lineDashPattern = [NSNumber(value: lineLength),NSNumber(value: lineSpacing)]
-        
+
         let path = CGMutablePath()
         path.move(to: CGPoint(x: 0, y: 0))
-        
+
         if type == .Vertical {
             path.addLine(to: CGPoint(x: 0, y: lineView.frame.size.height))
         }else {
@@ -373,14 +373,14 @@ public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #fu
         shapeLayer.path = path
         lineView.layer.addSublayer(shapeLayer)
     }
-    
+
     ///获取系统缓存大小（B）
     public static func cacheSize() -> String {
         var big = 0.0
         let cachePath = NSSearchPathForDirectoriesInDomains(
             .cachesDirectory, .userDomainMask, true).first
         let files = FileManager.default.subpaths(atPath: cachePath!)
-        
+
         for p in files!{
             let path = cachePath!.appendingFormat("/\(p)")
             if let floder = try? FileManager.default.attributesOfItem(atPath: path){
@@ -399,7 +399,7 @@ public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #fu
             return "\(String(format: "%.2f", big))B"
         }
     }
-    
+
     ///清除缓存
     public static func cleanCache( succuss: (@Sendable ()->Void)?) {
         DispatchQueue.global().async {
@@ -471,7 +471,7 @@ public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #fu
             UIDevice.current.setValue(orientationTarget, forKey: "orientation")
         }
     }
-    
+
     ///某个文件的大小（B）
     public static func fileSize(filePath:String) -> UInt64 {
         let fileManager = FileManager.default
@@ -496,11 +496,11 @@ public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #fu
         let productVC = SKStoreProductViewController()
         productVC.delegate = delegate
         productVC.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier:appleId]) { (status, error) in
-//            JQ_HideAllView()
+            //            JQ_HideAllView()
             if error == nil{
                 JQ_currentViewController().present(productVC, animated: true, completion: nil)
             }else{
-//                JQ_ShowError(errorStr: error?.localizedDescription ?? "")
+                //                JQ_ShowError(errorStr: error?.localizedDescription ?? "")
             }
             clouse(status,error)
         }
@@ -564,25 +564,25 @@ public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #fu
                 }else{
                     if let e = error as NSError? {
                         switch Int32(e.code) {
-                            case kLAErrorSystemCancel:print("系统取消授权");fallthrough
-                            case kLAErrorUserCancel:print("用户取消认证");fallthrough
-                            case kLAErrorAuthenticationFailed:print("认证失败");fallthrough
-                            case kLAErrorTouchIDNotAvailable:print("设备TouchID不可用");fallthrough
-                            case kLAErrorTouchIDNotEnrolled:print("设备TouchID未录入");fallthrough
-                            case kLAErrorPasscodeNotSet:
-                                print("系统未设置密码")
-                                clouse(.Faild,e)
-                            case kLAErrorUserFallback:
-                                print("切换密码")
-                                OperationQueue.main.addOperation {
-                                    print("选择密码模式")
-                                    clouse(.Password,nil)
-                                }
-                            default:
-                                OperationQueue.main.addOperation {
-                                    print("选其他")
-                                    clouse(.Password,nil)
-                                }
+                        case kLAErrorSystemCancel:print("系统取消授权");fallthrough
+                        case kLAErrorUserCancel:print("用户取消认证");fallthrough
+                        case kLAErrorAuthenticationFailed:print("认证失败");fallthrough
+                        case kLAErrorTouchIDNotAvailable:print("设备TouchID不可用");fallthrough
+                        case kLAErrorTouchIDNotEnrolled:print("设备TouchID未录入");fallthrough
+                        case kLAErrorPasscodeNotSet:
+                            print("系统未设置密码")
+                            clouse(.Faild,e)
+                        case kLAErrorUserFallback:
+                            print("切换密码")
+                            OperationQueue.main.addOperation {
+                                print("选择密码模式")
+                                clouse(.Password,nil)
+                            }
+                        default:
+                            OperationQueue.main.addOperation {
+                                print("选其他")
+                                clouse(.Password,nil)
+                            }
                         }
                     }
                 }
@@ -592,38 +592,38 @@ public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #fu
             clouse(.Unable,error! as NSError)
         }
     }
-    
+
     ///判断相册是否开启权限
     @discardableResult
     public static func AlbumAuthorize() -> Bool {
         switch PHPhotoLibrary.authorizationStatus() {
-            case .authorized:
-                return true
-            case .notDetermined:
-                PHPhotoLibrary.requestAuthorization { (status) in
-                    self.AlbumAuthorize()
-                }
-            default:
-                let alert = UIAlertController(title: "照片访问受限", message: "未在设置中允许保存图片权限？", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "去设置", style: .destructive) { (action) in
-                    let url = URL(string: "")
-                    if let url = url, UIApplication.shared.canOpenURL(url) {
-                        if #available(iOS 10, *) {
-                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                        }else {
-                            UIApplication.shared.openURL(url)
-                        }
+        case .authorized:
+            return true
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { (status) in
+                self.AlbumAuthorize()
+            }
+        default:
+            let alert = UIAlertController(title: "照片访问受限", message: "未在设置中允许保存图片权限？", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "去设置", style: .destructive) { (action) in
+                let url = URL(string: "")
+                if let url = url, UIApplication.shared.canOpenURL(url) {
+                    if #available(iOS 10, *) {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    }else {
+                        UIApplication.shared.openURL(url)
                     }
                 }
-                let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-                alert.addAction(okAction)
-                alert.addAction(cancelAction)
-                JQ_currentViewController().present(alert, animated: true, completion: nil)
-                return false
+            }
+            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            JQ_currentViewController().present(alert, animated: true, completion: nil)
+            return false
         }
         return false
     }
-    
+
     ///判断定位权限
     public static func JudgeLoationService() -> Bool {
         if CLLocationManager.authorizationStatus() != .denied {
@@ -637,7 +637,7 @@ public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #fu
                     }else {
                         UIApplication.shared.openURL(appSetting)
                     }
-                    
+
                 }
             }
             let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
@@ -653,21 +653,21 @@ public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #fu
         //建立的SystemSoundID对象,标准长震动
         let soundID = SystemSoundID(kSystemSoundID_Vibrate)
 
-//        //短振动，普通短震，3D Touch 中 Peek 震动反馈
-//        let soundShort = SystemSoundID(1519)
-//
-//        //普通短震，3D Touch 中 Pop 震动反馈,home 键的振动
-//        let soundMiddle = SystemSoundID(1520)
-//
-//        // 连续三次短震
-//        let soundThere = SystemSoundID(1521)
+        //        //短振动，普通短震，3D Touch 中 Peek 震动反馈
+        //        let soundShort = SystemSoundID(1519)
+        //
+        //        //普通短震，3D Touch 中 Pop 震动反馈,home 键的振动
+        //        let soundMiddle = SystemSoundID(1520)
+        //
+        //        // 连续三次短震
+        //        let soundThere = SystemSoundID(1521)
 
         //执行震动
         AudioServicesPlaySystemSound(soundID)
     }
-    
-    
-    #if canImport(AMap3DMap)
+
+
+#if canImport(AMap3DMap)
     /// 高德地图：距离计算
     public static func diastance(location:CLLocationCoordinate2D, lat:Double, lng:Double) -> String {
         let currentL = MAMapPointForCoordinate(CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
@@ -679,37 +679,32 @@ public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #fu
         let distanceStr = distanceN.jq_formatFloat()
         return (MAMetersBetweenMapPoints(currentL,pointL) < 1000) ? "\(distanceStr)m" : "\(distanceStr)Km"
     }
-    #endif
-    
-    
+#endif
+
+
     /// 加载emoji的表情库
     /// - Returns: 返回字典
     public static func loadEmoji()->Dictionary<String, Any>?{
         let path = Bundle.main.path(forResource: "emoji", ofType: "plist")
         return NSDictionary(contentsOfFile: path!) as? Dictionary<String, Any>
     }
-    
-    #if canImport(ObjectMapper)
-    public static func loadCitys()->Array<CitysOptionModel>?{
-        let path = Bundle.main.path(forResource: "citysCode", ofType: "txt")
-        do {
-            let str = try String(contentsOf: URL(fileURLWithPath: path!))
-            let citysModel = Array<CitysOptionModel>(JSONString: str)!
-            return citysModel
-        } catch _ {
-            return nil
-        }
-    }
-    #endif
-    
+
     /// 版本信息
-     public static func currentVersion()->String{
+    public static func currentVersion()->String{
         let info = Bundle.main.infoDictionary
         var version = ""
-								version = "\(info!["CFBundleShortVersionString"]  as! String)"
+        version = "\(info!["CFBundleShortVersionString"]  as! String)"
         return version
     }
-    
+
+    /// APP名称
+    public static func appName()->String{
+        let info = Bundle.main.infoDictionary
+        var version = ""
+        version = "\(info!["CFBundleDisplayName"]  as! String)"
+        return version
+    }
+
     /// 代码延迟运行
     ///
     /// - Parameters:
@@ -736,19 +731,19 @@ public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #fu
                     do{
                         let dictionary = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! Dictionary<String, Any>
                         let decoder = JSONDecoder()
-                        let versionModel = try decoder.decode(VersionModel.self, from: dictionary.jq.toData()!)
+                        let versionModel = try decoder.decode(VersionModel.self, from: dictionary.toData()!)
 
                         let info = Bundle.main.infoDictionary
                         var version = ""
                         version = "\(info!["CFBundleShortVersionString"]  as! String)"
 
-																								let currV = Int(version.replacingOccurrences(of: ".", with: "")) ?? 100
+                        let currV = Int(version.replacingOccurrences(of: ".", with: "")) ?? 100
                         let AppStoreV = Int(versionModel.results.last?.version.replacingOccurrences(of: ".", with: "") ?? "100") ?? 100
-																								if AppStoreV > currV{
+                        if AppStoreV > currV{
                             clouse?(true,versionModel.results.last!,url)
-																								}else{
-																												clouse?(false,nil,url)
-																								}
+                        }else{
+                            clouse?(false,nil,url)
+                        }
                     }catch{
                         clouse?(false,nil,url)
                     }
@@ -813,10 +808,10 @@ public class VersionResultModel:Codable{
 
 
 public final class JQBox<T> {
-        // 声明一个别名
+    // 声明一个别名
     public typealias Listener = (T) -> Void
     public var listener: Listener?
-
+    
     public var value: T? {
         didSet {
             guard let v = value else { return }

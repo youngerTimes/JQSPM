@@ -15,7 +15,7 @@ public protocol APIBaseService:Sendable{
 }
 
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-extension APIBaseService{
+public extension APIBaseService{
     var timeoutInterval:TimeInterval{return 20}
 }
 

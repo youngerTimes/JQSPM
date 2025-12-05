@@ -10,7 +10,7 @@ import CommonCrypto
 
 #if canImport(UIKit)
 import UIKit
-typealias CustomEdgeInsets = UIEdgeInsets
+public typealias CustomEdgeInsets = UIEdgeInsets
 public let EdgeInsetsZero = UIEdgeInsets.zero
 typealias CustomFont = UIFont
 typealias CustomColor = UIColor
@@ -1067,7 +1067,10 @@ public extension String{
     }
 }
 
+// MARK: -- Markdown
 public extension String{
+
+    /// 根据markdown抽离标题，可用于建立目录索引
     func parseMarkdown()->[MarkdownSection]{
         var sections: [MarkdownSection] = []
         let lines = self.components(separatedBy: .newlines)
@@ -1104,6 +1107,8 @@ public extension String{
         return sections
     }
 
+
+    /// 根据markdown 将链接抽离出来 如 [simple](http://.....)
     func extractLinks() -> [(title: String, url: String)] {
         var links: [(title: String, url: String)] = []
         // 定义正则表达式模式，用于匹配 Markdown 中的链接

@@ -156,9 +156,9 @@ public extension UIView{
      @param delta：抖动偏移量（默认2）
      @param completion：抖动动画结束后的回调
      */
-    func jq_shake(direction: ShakeDirection = .horizontal, times: Int = 5,
-                  interval: TimeInterval = 0.1, delta: CGFloat = 2,
-                  completion: (() -> Void)? = nil) {
+    public   func jq_shake(direction: ShakeDirection = .horizontal, times: Int = 5,
+                           interval: TimeInterval = 0.1, delta: CGFloat = 2,
+                           completion: (() -> Void)? = nil) {
         //播放动画
         UIView.animate(withDuration: interval, animations: { () -> Void in
             switch direction {
@@ -188,7 +188,7 @@ public extension UIView{
 
 
     ///切部分圆角(Frame) 注意不能用错，storyboard和nib 在高度动态变化时，容易出现BUG
-    func jq_cornerPart(byRoundingCorners corners: UIRectCorner, radii: CGFloat) {
+    public  func jq_cornerPart(byRoundingCorners corners: UIRectCorner, radii: CGFloat) {
         let maskPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radii, height: radii))
         let maskLayer = CAShapeLayer()
         maskLayer.frame = self.bounds
@@ -198,7 +198,7 @@ public extension UIView{
         self.layer.mask = maskLayer
     }
     ///切部分圆角(Xib)
-    func jq_cornerPartWithNib(byRoundingCorners corners: UIRectCorner, radii: CGFloat, size: CGSize) {
+    public  func jq_cornerPartWithNib(byRoundingCorners corners: UIRectCorner, radii: CGFloat, size: CGSize) {
         let maskPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: size.width, height: size.height), byRoundingCorners: corners, cornerRadii: CGSize(width: radii, height: radii))
         let maskLayer = CAShapeLayer()
         maskLayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
@@ -208,7 +208,7 @@ public extension UIView{
     }
 
     ///切圆角并且设置阴影
-    func jq_cornerWith(radii: CGFloat, isXib:Bool,shadowColor:UIColor) {
+    public  func jq_cornerWith(radii: CGFloat, isXib:Bool,shadowColor:UIColor) {
         self.layer.masksToBounds = false
         self.layer.shadowColor = shadowColor.cgColor
         self.layer.shadowOpacity = 0.4
@@ -224,7 +224,7 @@ public extension UIView{
     /// 切部分圆角
     /// - Returns: 返回阴影Layer,需要自定义颜色和范围
     @discardableResult
-    func jq_cornerPartWithShadow(byRoundingCorners corners: UIRectCorner, radii: CGFloat)->CALayer {
+    public  func jq_cornerPartWithShadow(byRoundingCorners corners: UIRectCorner, radii: CGFloat)->CALayer {
         let maskPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radii, height: radii))
         let maskLayer = CAShapeLayer()
         maskLayer.frame = self.bounds
@@ -243,7 +243,7 @@ public extension UIView{
 
 
     /// 设置阴影
-    func jq_shadow(shadowColor: UIColor, corner: CGFloat, opacity: Double) {
+    public  func jq_shadow(shadowColor: UIColor, corner: CGFloat, opacity: Double) {
         self.layer.shadowColor = shadowColor.cgColor
         self.layer.borderColor = shadowColor.cgColor
         self.layer.borderWidth = 0.000001;
@@ -257,7 +257,7 @@ public extension UIView{
 
     //【截图】UIView->UIImage
     @discardableResult
-    func jq_captureToImage(_ saveToAlbum:Bool = false) -> UIImage {
+    public  func jq_captureToImage(_ saveToAlbum:Bool = false) -> UIImage {
         var imageRet = UIImage()
         UIGraphicsBeginImageContextWithOptions(self.frame.size, true, UIScreen.main.scale)
         self.layer.render(in: UIGraphicsGetCurrentContext()!)
@@ -273,7 +273,7 @@ public extension UIView{
 
     //【截图】将当前视图转为UIImage
     @available(*,deprecated,message: "废弃")
-    func jq_captureAsImage(_ saveToAlbum:Bool = false) -> UIImage {
+    public func jq_captureAsImage(_ saveToAlbum:Bool = false) -> UIImage {
         let renderer = UIGraphicsImageRenderer(bounds: bounds)
         let image = renderer.image { rendererContext in
             layer.render(in: rendererContext.cgContext)
@@ -287,7 +287,7 @@ public extension UIView{
     }
 
     /// 合并两个图片
-    func jq_combinTwoImage(image1:UIImage,image2:UIImage) -> UIImage{
+    public  func jq_combinTwoImage(image1:UIImage,image2:UIImage) -> UIImage{
         let width = max(image1.size.width, image2.size.width)
         let height = image1.size.height + image2.size.height
         let offScreenSize = CGSize.init(width: width, height: height)
@@ -308,7 +308,9 @@ public extension UIView{
     }
 
     ///设置渐变色(Frame)
-    func jq_gradientColor(colorArr:[CGColor],cornerRadius:CGFloat = 0,startPoint:CGPoint = CGPoint(x: 0, y: 1),endPoint:CGPoint = CGPoint(x: 1, y: 1),bounds:CGRect? = nil,locations:[NSNumber]? = nil,clear:Bool = false) {
+    ///
+    @discardableResult
+    public func jq_gradientColor(colorArr:[CGColor],cornerRadius:CGFloat = 0,startPoint:CGPoint = CGPoint(x: 0, y: 1),endPoint:CGPoint = CGPoint(x: 1, y: 1),bounds:CGRect? = nil,locations:[NSNumber]? = nil,clear:Bool = false)->CAGradientLayer? {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = bounds == nil ? self.bounds : bounds!
         gradientLayer.colors = colorArr
@@ -326,14 +328,16 @@ public extension UIView{
             }
         }
         self.layer.insertSublayer(gradientLayer, at: 0)
+        return gradientLayer
     }
 
     ///设置渐变色(Nib)
     @discardableResult
-    func jq_gradientNibColor(colorArr:[CGColor],cornerRadius:CGFloat = 0) -> CAGradientLayer? {
+    public  func jq_gradientNibColor(colorArr:[CGColor],cornerRadius:CGFloat = 0) -> CAGradientLayer? {
+        layoutIfNeeded()
         self.jq_masksToBounds = true
         let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        gradientLayer.frame = self.bounds
         gradientLayer.colors = colorArr
         gradientLayer.startPoint = CGPoint(x: 0, y: 1)
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
@@ -343,8 +347,24 @@ public extension UIView{
         return gradientLayer
     }
 
+    ///设置渐变色
+    @discardableResult
+    public  func jq_gradientNibColor(colorArr:[CGColor],cornerRadius:CGFloat = 0,startPoint:CGPoint = CGPoint(x: 0, y: 1),endPoint:CGPoint = CGPoint(x: 1, y: 1)) -> CAGradientLayer? {
+        layoutIfNeeded()
+        self.jq_masksToBounds = true
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = self.bounds
+        gradientLayer.colors = colorArr
+        gradientLayer.startPoint = startPoint
+        gradientLayer.endPoint = endPoint
+        gradientLayer.cornerRadius = cornerRadius
+        if cornerRadius > 0 {gradientLayer.masksToBounds = true}
+        self.layer.insertSublayer(gradientLayer, at: 0)
+        return gradientLayer
+    }
+
     ///读取本地json文件
-    func jq_readFilesOfJsonfiles(name:String,type:String) -> NSArray{
+    public  func jq_readFilesOfJsonfiles(name:String,type:String) -> NSArray{
         let path = Bundle.main.path(forResource: name, ofType: type)
         let url = URL(fileURLWithPath: path!)
         do {
@@ -362,11 +382,11 @@ public extension UIView{
         }
     }
 
-    func jq_backgroundColorClear(){
+    public  func jq_backgroundColorClear(){
         self.backgroundColor = UIColor.white.withAlphaComponent(0)
     }
 
-    func jq_addCorners(corner:UIRectCorner,radius:Double,width:Double? = nil,height:Double? = nil){
+    public  func jq_addCorners(corner:UIRectCorner,radius:Double,width:Double? = nil,height:Double? = nil){
         // 圆角位置
         //frame可以先计算完成  避免圆角拉伸
         let rect = CGRect(x: 0, y: 0, width: (width == nil ? jq_width:width)!, height: (height == nil ? jq_height:height)!)
@@ -378,7 +398,7 @@ public extension UIView{
     }
 
     /// 圆角加阴影
-    func jq_addShadows(shadowColor: UIColor, corner: CGFloat,radius:CGFloat,offset:CGSize, opacity: Double) {
+    public func jq_addShadows(shadowColor: UIColor, corner: CGFloat,radius:CGFloat,offset:CGSize, opacity: Double) {
         self.layer.shadowColor = shadowColor.cgColor
         self.layer.cornerRadius = corner
         self.layer.shadowOpacity = Float(opacity)
@@ -391,7 +411,7 @@ public extension UIView{
 
     // MARK: -- static Function
     /// 添加阴影（父视图）
-    static func jq_addRoundedOrShadow(frame: CGRect,radius:CGFloat, shadowOpacity:CGFloat, shadowColor:UIColor) -> CALayer {
+    public  static func jq_addRoundedOrShadow(frame: CGRect,radius:CGFloat, shadowOpacity:CGFloat, shadowColor:UIColor) -> CALayer {
         let subLayer = CALayer()
         let fixframe = frame
         let newFrame = CGRect(x: 0, y: fixframe.minY, width: fixframe.width, height: fixframe.height) // 修正偏差
@@ -407,7 +427,7 @@ public extension UIView{
     }
 
     /// 添加阴影（父视图）
-    static func jq_addRoundedOrShadows(frame: CGRect,radius:CGFloat, shadowOpacity:CGFloat, shadowColor:UIColor) -> CALayer {
+    public static func jq_addRoundedOrShadows(frame: CGRect,radius:CGFloat, shadowOpacity:CGFloat, shadowColor:UIColor) -> CALayer {
         let subLayer = CALayer()
         let fixframe = frame
         let newFrame = CGRect(x: fixframe.minX-(375-UIScreen.main.bounds.size.width)/2, y: fixframe.minY, width: fixframe.width, height: fixframe.height) // 修正偏差
@@ -429,7 +449,7 @@ public extension UIView{
     ///   - barBgColor: 圆环底色
     ///   - percent: 进度值 0 ~ 1.0
     ///   - duration: 动画执行，为0 则没有动画
-    func jq_addCircle(circleWeight: CGFloat, circleColor: UIColor,barBgColor:UIColor,radius:Double? = nil, percent:CGFloat,duration:CGFloat = 0){
+    public func jq_addCircle(circleWeight: CGFloat, circleColor: UIColor,barBgColor:UIColor,radius:Double? = nil, percent:CGFloat,duration:CGFloat = 0){
         let X = self.bounds.midX
         let Y = self.bounds.midY
         let startAngle = CGFloat(-Double.pi/2)
@@ -476,8 +496,8 @@ public extension UIView{
 
 
     /// 创建一个矩形的实线
-    /// - Parameter color: <#color description#>
-    func jq_addRectLine(_ color:UIColor){
+    /// - Parameter color:
+    public func jq_addRectLine(_ color:UIColor){
         //线宽
         let lineWidth = 1 / UIScreen.main.scale
         //线偏移量

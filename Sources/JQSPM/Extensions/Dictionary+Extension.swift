@@ -10,10 +10,26 @@ import Foundation
 extension Dictionary:JQFisherCompatible{}
 extension JQFisher where Base == Dictionary<String, Any>{}
 
-public extension JQFisher where Base == Dictionary<String,Any>{
+public extension Dictionary{
+
+    /// 对字典的key进行排序
+    /// - Returns: 返回排序后的Key
+    func sortKey()->Array<Key>{
+        let sortKey = keys.sorted { (k1, k2) -> Bool in
+            if let str1 = k1 as? String, let str2 = k2 as? String{
+                return str1.caseInsensitiveCompare(str2).rawValue < 0
+            }
+
+            if let num1 = k1 as? String, let num2 = k2 as? String{
+                return num1 < num2
+            }
+            return true
+        }
+        return sortKey
+    }
 
     /// 字典转字符串
-    func toString() -> String?{
+    public func toString() -> String?{
         let data = try? JSONSerialization.data(withJSONObject: self, options: [])
         let str = String(data: data!, encoding: String.Encoding.utf8)
         return str
@@ -22,7 +38,7 @@ public extension JQFisher where Base == Dictionary<String,Any>{
     /// 排序Key并转字符串
     func toSortedJSONString(prettyPrinted: Bool = false) -> String? {
         // 按 key 排序（转换为字符串后比较）
-        let sortedDict = self.base.sorted { lhs, rhs in
+        let sortedDict = self.sorted { lhs, rhs in
             let key1 = String(describing: lhs.key)
             let key2 = String(describing: rhs.key)
             return key1 < key2

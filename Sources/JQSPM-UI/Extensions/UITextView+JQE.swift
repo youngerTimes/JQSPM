@@ -12,6 +12,9 @@ import UIKit
 import AppKit
 #endif
 
+@MainActor private var placeholderKey: Void?
+@MainActor private var attributedPlaceholderKey: Void?
+
 #if canImport(UIKit)
 public extension UITextView{
 

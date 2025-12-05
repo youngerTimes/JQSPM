@@ -13,12 +13,10 @@ import AppKit
 public typealias Object = NSColor
 #endif
 
-
-#if canImport(UIKit)
-public extension UIColor{
+public extension Object{
     ///ColorHex
-    convenience init(hexStr:String,darkStr:String? = nil,autoDart:Bool = false) {
-        
+    public convenience init(hexStr:String,darkStr:String? = nil,autoDart:Bool = false) {
+
         var tempStr = hexStr
         
         if autoDart {
@@ -53,8 +51,8 @@ public extension UIColor{
         }
     }
     
-    convenience init(lr:CGFloat,lg:CGFloat,lb:CGFloat,dr:CGFloat? = nil,dg:CGFloat? = nil, db:CGFloat? = nil,alpha:CGFloat = 1.0) {
-        
+    public convenience init(lr:CGFloat,lg:CGFloat,lb:CGFloat,dr:CGFloat? = nil,dg:CGFloat? = nil, db:CGFloat? = nil,alpha:CGFloat = 1.0) {
+
         var r:CGFloat = lr
         var g:CGFloat = lg
         var b:CGFloat = lb
@@ -73,7 +71,7 @@ public extension UIColor{
     }
     
     ///使用rgb方式生成自定义颜色
-    convenience init(_ r : CGFloat, _ g : CGFloat, _ b : CGFloat) {
+    public convenience init(_ r : CGFloat, _ g : CGFloat, _ b : CGFloat) {
         let red = r / 255.0
         let green = g / 255.0
         let blue = b / 255.0
@@ -81,8 +79,8 @@ public extension UIColor{
     }
     
     ///使用rgba方式生成自定义颜色
-    convenience init(_ r : CGFloat, _ g : CGFloat, _ b : CGFloat, _ a : CGFloat) {
-        
+    public convenience init(_ r : CGFloat, _ g : CGFloat, _ b : CGFloat, _ a : CGFloat) {
+
         let red = r / 255.0
         let green = g / 255.0
         let blue = b / 255.0
@@ -90,7 +88,7 @@ public extension UIColor{
     }
     
     ///返回随机颜色
-    static var jq_randomColor:UIColor{
+    public static var jq_randomColor:UIColor{
         get{
             let red = CGFloat(arc4random()%256)/255.0
             let green = CGFloat(arc4random()%256)/255.0
@@ -99,8 +97,8 @@ public extension UIColor{
         }
     }
     
-    //获取反色
-    func jq_invertColor() -> UIColor {
+    ///获取反色
+    public func jq_invertColor() -> UIColor {
         var r:CGFloat = 0, g:CGFloat = 0, b:CGFloat = 0
         self.getRed(&r, green: &g, blue: &b, alpha: nil)
         return UIColor(red:1.0-r, green: 1.0-g, blue: 1.0-b, alpha: 1)
@@ -124,4 +122,10 @@ public extension UIColor{
     }
     
 }
-#endif
+
+public extension String{
+    public var hexColor:UIColor{
+        return UIColor(hexStr: self)
+    }
+}
+

@@ -11,7 +11,7 @@ import UIKit
 import AppKit
 #endif
 
-extension CGImage{
+public extension CGImage{
     func jq_rotated(byDegrees degrees: CGFloat) -> CGImage? {
         let radians = degrees * .pi / 180
         let transform = CGAffineTransform(rotationAngle: radians)
