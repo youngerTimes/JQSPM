@@ -705,6 +705,14 @@ public func JQ_ErrorLog<T>(_ message:T,file:String = #file,funcName:String = #fu
         return version
     }
 
+	 
+	 public static func bundleID()->String{
+		  let info = Bundle.main.infoDictionary
+		  var version = ""
+		  version = "\(info!["CFBundleIdentifier"]  as! String)"
+		  return version
+	 }
+
     /// 代码延迟运行
     ///
     /// - Parameters:

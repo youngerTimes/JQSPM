@@ -173,7 +173,7 @@ extension Double{
         }
 
         // 6. 格式化输出（度：整数；分：2位小数；秒：2位小数）
-        return String(format: "%.0f°%.02f′%.02f″%@", degrees, minutes, seconds, direction)
+        return String(format: "%.0f°%.0f′%.02f″%@", degrees, minutes, seconds, direction)
     }
 }
 

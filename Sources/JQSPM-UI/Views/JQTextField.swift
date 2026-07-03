@@ -34,6 +34,10 @@ public class JQTextField: UITextField {
             return
         }
 
+        if markedTextRange != nil{
+            return
+        }
+
         // 截取最大长度内的文本
         let endIndex = text.index(text.startIndex, offsetBy: maxLength)
         self.text = String(text[..<endIndex])
