@@ -60,6 +60,10 @@ public extension String{
     var toDouble:Double{
         return Double(self) ?? 0
     }
+
+	 var toInt:Int{
+		  return Int(self) ?? 0
+	 }
 }
 
 public extension String{
